@@ -4,21 +4,33 @@
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
     <meta charset="utf-8">
     <title>Vexbot and Mapbox!</title>
+    <div id='map'></div>
   <script>
-  fetch('https://api.noopschallenge.com/vexbot')
-  .then(function(response) {
-      return response.json();
-    })
-    .then(function(myJson) {
-      console.log(JSON.stringify(myJson));
-    });
+// put the mapbox code here..
+mapboxgl.accessToken = 'API_KEY_HERE';
+var map = new mapboxgl.Map({
+container: 'map', // container id
+style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+center: [ 40.785091, -73.968285], // starting position [lng, lat]
+zoom: 0// starting zoom
+});
 
+// thanks to https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+fetch('https://api.noopschallenge.com/vexbot')
+.then(function(response) {
+    return response.json();
+  })
+  .then(function(myJson) {
+    console.log(JSON.stringify(myJson));
+    var parsed = JSON.stringify(myJson);
+    console.log(parsed);
+    // load points here
+
+});
   </script>
     <style>
-      body, html {
-        margin: 0;
-        padding: 0;
-      }
+    body { margin:0; padding:0; }
+#map { position:absolute; top:0; bottom:0; width:100%; }
     </style>
   </head>
   <body>
