@@ -7,7 +7,7 @@
     <div id='map'></div>
   <script>
 // put the mapbox code here..
-mapboxgl.accessToken = 'API_KEY_HERE';
+mapboxgl.accessToken = 'YOUR-API-KEY-HERE'
 var map = new mapboxgl.Map({
 container: 'map', // container id
 style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
@@ -21,10 +21,26 @@ fetch('https://api.noopschallenge.com/vexbot')
     return response.json();
   })
   .then(function(myJson) {
-    console.log(JSON.stringify(myJson));
-    var parsed = JSON.stringify(myJson);
+    // load points here, take out x and y to be the lat and long
+    // then add as points on the map, done!
+    var parsed = (myJson['vectors']);
+    var parsed = (parsed[0]);
     console.log(parsed);
-    // load points here
+    console.log(parsed.a);
+    console.log(parsed.a['x']);
+    console.log(parsed.a['y']);
+    // times it by .1 to shift the number over one point, to work with the -90 to 90 cord system.
+    var x = parsed.a['x'] * .1
+    var y = parsed.a['y'] * .1
+    var marker = new mapboxgl.Marker()
+    .setLngLat([x, y])
+    .addTo(map);
+    //console.log(JSON.stringify(myJson));
+    //var parsed = JSON.stringify(myJson);
+    //console.log(parsed);
+    //console.log(parsed[22]);
+    //console.log(parsed[0].b);
+    // perhaps add a button to say "give up", sort of a game to find the point in the world after large point is done
 
 });
   </script>
