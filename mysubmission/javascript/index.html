@@ -5,6 +5,10 @@
     <meta charset="utf-8">
     <title>Vexbot and Mapbox!</title>
     <div id='map'></div>
+    <style>
+    body { margin:0; padding:0; }
+#map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
   <script>
 // put the mapbox code here..
 mapboxgl.accessToken = 'YOUR-API-KEY-HERE'
@@ -14,6 +18,33 @@ style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
 center: [ 40.785091, -73.968285], // starting position [lng, lat]
 zoom: 0// starting zoom
 });
+
+function generatepoint(){
+  fetch('https://api.noopschallenge.com/vexbot')
+  .then(function(response) {
+      return response.json();
+    })
+    .then(function(myJson) {
+      // load points here, take out x and y to be the lat and long
+      // then add as points on the map, done!
+      var parsed = (myJson['vectors']);
+      var parsed = (parsed[0]);
+      console.log(parsed);
+      console.log(parsed.a);
+      console.log(parsed.a['x']);
+      console.log(parsed.a['y']);
+      // times it by .1 to shift the number over one point, to work with the -90 to 90 cord system.
+      var x = parsed.a['x'] * .1;
+      var y = parsed.a['y'] * .1;
+      var marker = new mapboxgl.Marker()
+      .setLngLat([x, y])
+      .addTo(map);
+    });
+
+
+
+}
+// add a button to make that happen and get it to work
 
 // thanks to https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 fetch('https://api.noopschallenge.com/vexbot')
@@ -44,12 +75,8 @@ fetch('https://api.noopschallenge.com/vexbot')
 
 });
   </script>
-    <style>
-    body { margin:0; padding:0; }
-#map { position:absolute; top:0; bottom:0; width:100%; }
-    </style>
   </head>
   <body>
-
+ <button onclick="generatepoint();">New Point</button>
   </body>
 </html>
